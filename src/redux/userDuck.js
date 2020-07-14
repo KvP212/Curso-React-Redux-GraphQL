@@ -1,6 +1,6 @@
 // constants
 let initialData = {
-  loggedIn = false
+  loggedIn: false
 }
 
 let LOGIN = 'LOGIN'
