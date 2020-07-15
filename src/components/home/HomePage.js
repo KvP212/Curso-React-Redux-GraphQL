@@ -1,39 +1,53 @@
 import React, { useState, useEffect } from 'react'
 import Card from '../card/Card'
 import styles from './home.module.css'
-import axios from 'axios'
+// import axios from 'axios'
+import { connect } from 'react-redux'
 
-let URL = "https://rickandmortyapi.com/api"
+// Deleted
+// let URL = "https://rickandmortyapi.com/api"
 
-export default function Home() {
+function Home({chars}) {
 
-    let [chars, setChars] = useState([])
+    // Deleted
+    // let [chars, setChars] = useState([])
 
-    useEffect(() => {
-        getCharacters()
-    }, [])
+    // Deleted
+    // useEffect(() => {
+    //     getCharacters()
+    // }, [])
 
-    function nextChar() {
-        chars.shift()
-        if (!chars.length) {
-            //get more characters
-        }
-        setChars([...chars])
-    }
+    // Deleted
+    // function nextChar() {
+    //     chars.shift()
+    //     if (!chars.length) {
+    //         //get more characters
+    //     }
+    //     setChars([...chars])
+    // }
+
+    // changed
+    // function renderCharacter() {
+    //     let char = chars[0]
+    //     return (
+    //         <Card leftClick={nextChar} {...char} />
+    //     )
+    // }
 
     function renderCharacter() {
         let char = chars[0]
         return (
-            <Card leftClick={nextChar} {...char} />
+            <Card { ...char} />
         )
     }
 
-    function getCharacters() {
-        return axios.get(`${URL}/character`)
-            .then(res => {
-                setChars(res.data.results)
-            })
-    }
+    // Deleted
+    // function getCharacters() {
+    //     return axios.get(`${URL}/character`)
+    //         .then(res => {
+    //             setChars(res.data.results)
+    //         })
+    // }
 
     return (
         <div className={styles.container}>
@@ -44,3 +58,13 @@ export default function Home() {
         </div>
     )
 }
+
+function mapStateToProps( state ) {
+    return {
+        chars: state.characters.array
+    }
+}
+
+
+
+export default connect(mapStateToProps)(Home)
