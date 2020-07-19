@@ -1,12 +1,16 @@
 import React from 'react'
 import styles from './login.module.css'
 import { connect } from 'react-redux'
-import { doGoogleLoginAction } from '../../redux/userDuck'
+import { doGoogleLoginAction, logOutAction } from '../../redux/userDuck'
 
-function LoginPage({ loggedIn, fetching, doGoogleLoginAction }) {
+function LoginPage({ loggedIn, fetching, doGoogleLoginAction, logOutAction }) {
 
     function doLogin() {
         doGoogleLoginAction()
+    }
+
+    function logOut() {
+        logOutAction()
     }
 
     if (fetching) return <h2> Cargando... </h2>
@@ -19,7 +23,7 @@ function LoginPage({ loggedIn, fetching, doGoogleLoginAction }) {
                         Cierra tu sesión
                     </h1>
 
-                    <button>
+                    <button onClick={logOut}> 
                         Cerrar Sesión
                     </button>
                 </div>
@@ -45,4 +49,4 @@ function mapState({ user: {fetching, loggedIn} }) {
     }
 }
 
-export default connect(mapState, { doGoogleLoginAction })(LoginPage)
+export default connect(mapState, { doGoogleLoginAction, logOutAction })(LoginPage)
