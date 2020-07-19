@@ -13,7 +13,7 @@ let LOGIN_ERROR = 'LOGIN_ERROR'
 export default function reducer(state = initialData, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return { ...state, fetching: false, error: ...action.payload }
+      return { ...state, fetching: false, loggedIn: true, ...action.payload }
     
     case LOGIN_ERROR:
       return { ...state, fetching: false, error: action.payload }
@@ -32,6 +32,18 @@ function saveStorage( storage ) {
 }
 
 //action (action creator)
+export let restoreSessionAction = () => dispatch => {
+  let storage = localStorage.getItem('storage')
+  storage = JSON.parse(storage)
+
+  if (storage && storage.user) {
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: storage.user
+    })
+  }
+}
+
 export let doGoogleLoginAction = () => (dispatch, getState) => {
 
   dispatch({
@@ -42,7 +54,12 @@ export let doGoogleLoginAction = () => (dispatch, getState) => {
     .then(user => {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { ...user }
+        payload: { 
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL
+         }
       })
       saveStorage(getState())
     })
