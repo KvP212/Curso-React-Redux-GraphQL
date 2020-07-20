@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 
 // Your web app's Firebase configuration
 let firebaseConfig = {
@@ -15,6 +16,12 @@ let firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 //firebase.analytics();
+
+let db = firebase.firestore().collection('favs')
+
+export function updateDB(array, uid) {
+  return db.doc(uid).set( { favoritos: {...array} })
+}
 
 export function signOutGoogle() {
   firebase.auth().signOut()
