@@ -52,6 +52,18 @@ export default function reducer(state = initialData, action) {
 
 //action (action creator)
 
+export let restoreFavsAction = () => dispatch => {
+  let storage = localStorage.getItem('storage')
+  storage = JSON.parse(storage)
+
+  if (storage && storage.characters.favorites) {
+    dispatch({
+      type: GET_FAVS_SUCCESS,
+      payload: storage.characters.favorites
+    })
+  }
+}
+
 export let retreiveFavs = () => (dispatch, getState) => {
 
   dispatch({
@@ -84,7 +96,10 @@ export let addToFavoritesAction = () => (dispatch, getState) => {
   favorites.push(char)
 
   //save to Firebase
-  updateDB( favorites, uid )
+  updateDB(favorites, uid)
+  
+  //update localstorage
+  localStorage.storage = JSON.stringify( getState() )
 
   dispatch({
     type: ADD_TO_FAVORITES,

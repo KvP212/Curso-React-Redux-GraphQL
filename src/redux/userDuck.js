@@ -75,9 +75,9 @@ export let doGoogleLoginAction = () => (dispatch, getState) => {
           photoURL: user.photoURL
          }
       })
-      saveStorage(getState())
-      retreiveFavs()(dispatch, getState)
 
+      retreiveFavs()(dispatch, getState)
+        .then( () =>  saveStorage( getState() ) ) 
     })
     .catch(e => {
       console.log(e)
