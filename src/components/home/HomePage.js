@@ -3,12 +3,12 @@ import Card from '../card/Card'
 import styles from './home.module.css'
 // import axios from 'axios'
 import { connect } from 'react-redux'
-import { removeCharacterAction } from '../../redux/charsDuck'
+import { removeCharacterAction, addToFavoritesAction } from '../../redux/charsDuck'
 
 // Deleted
 // let URL = "https://rickandmortyapi.com/api"
 
-function Home({ chars, removeCharacterAction }) {
+function Home({ chars, removeCharacterAction, addToFavoritesAction }) {
 
     // Deleted
     // let [chars, setChars] = useState([])
@@ -35,16 +35,6 @@ function Home({ chars, removeCharacterAction }) {
     //     )
     // }
 
-    function renderCharacter() {
-        let char = chars[0]
-        return (
-            <Card leftClick={nextCharacter} {...char} />
-        )
-    }
-
-    function nextCharacter() {
-        removeCharacterAction()
-    }
     // Deleted
     // function getCharacters() {
     //     return axios.get(`${URL}/character`)
@@ -52,6 +42,25 @@ function Home({ chars, removeCharacterAction }) {
     //             setChars(res.data.results)
     //         })
     // }
+
+    function renderCharacter() {
+        let char = chars[0]
+        return (
+            <Card
+                rightClick={addFav}
+                leftClick={nextCharacter}
+                {...char}
+            />
+        )
+    }
+
+    function nextCharacter() {
+        removeCharacterAction()
+    }
+
+    function addFav() {
+        addToFavoritesAction()
+    }
 
     return (
         <div className={styles.container}>
@@ -71,4 +80,4 @@ function mapStateToProps( state ) {
 
 
 
-export default connect(mapStateToProps, { removeCharacterAction })(Home)
+export default connect(mapStateToProps, { removeCharacterAction, addToFavoritesAction })(Home)
